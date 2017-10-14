@@ -1,5 +1,5 @@
 all:
-	gcc -o linked.e linked.c linked.h
+	gcc -o linked.exe linked.c linked.h
 
 run: all
-	./linked.e
+	./linked.exe
