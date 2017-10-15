@@ -1,12 +1,12 @@
 #include "linked.h"
 
 void print_list(struct node * node){
-  printf("%s", "[");
+  printf("[");
   while (node -> next){
-    printf("%d%s", node -> i, ", ");
+    printf("%d", node -> i);
     node = node -> next;
   }
-  printf("%d%s\n", node -> i, "]");
+  printf("%d]\n", node -> i);
 }
 struct node * insert_front(struct node * node, int x){
   struct node * temp;
@@ -17,9 +17,12 @@ struct node * insert_front(struct node * node, int x){
 }
 
 struct node * free_list(struct node * node){
-  free_list(node -> next);
-  node -> next = 0;
-  free(node);
+  if(node){
+    free_list(node -> next);
+    node -> next = 0;
+    node -> i = 0;
+    free(node);
+  }
   return node;
 }
 
@@ -29,7 +32,8 @@ int main(){
   test = insert_front(test, 15);
   test = insert_front(test, 13);
   print_list(test);
-  free(test);
+  // free_list(test);
+  // insert_front(test, 15);
   // print_list(test);
 
   printf("%p\n", test);
