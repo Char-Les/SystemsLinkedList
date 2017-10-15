@@ -1,40 +1,63 @@
+//Charles Weng
+//Systems Period 4
+//HW6 -- Enlist Your C Skillz
+//2017-10-16
 #include "linked.h"
 
+/*
+  I'm not sure if free_list should just return a null
+  It feels really weird to have to do that, but I'm not sure how to work around a pointer to freed heap memory
+  I have tried returning the node, but that just seems to break the list and loops forever through random values
+*/
+
+// go through each node and print out its value and terminates with a \n
 void print_list(struct node * node){
-  printf("[");
-  while (node -> next){
-    printf("%d", node -> i);
+  // loop through the list
+  while (node){
+    printf("%d ", node -> i);
     node = node -> next;
   }
-  printf("%d]\n", node -> i);
+  printf("\n");
 }
+
+// insert a value to the front of the list
 struct node * insert_front(struct node * node, int x){
+  // make the new head of the list
   struct node * temp;
-  temp = (struct node *) calloc(1, sizeof(node));
+  temp = (struct node *) malloc(sizeof(node));
+  // set its values
   temp -> i = x;
   temp -> next = node;
   return temp;
 }
 
+// clears the list's memory
 struct node * free_list(struct node * node){
+  //if this isn't null then clear it and free it
   if(node){
+    //recursive call to loop through list
     free_list(node -> next);
     node -> next = 0;
     node -> i = 0;
     free(node);
   }
-  return node;
+  // returns a null pointer since the list is now free
+  // only the head's free_list return is used
+  return 0;
 }
 
 int main(){
   struct node * test;
   test = insert_front(0, 17);
+  print_list(test);
   test = insert_front(test, 15);
   test = insert_front(test, 13);
   print_list(test);
-  // free_list(test);
-  // insert_front(test, 15);
-  // print_list(test);
+  test = free_list(test);
+  print_list(test);
+  test = insert_front(test, 15);
+  test = insert_front(test, 15);
+  print_list(test);
 
   printf("%p\n", test);
 }
