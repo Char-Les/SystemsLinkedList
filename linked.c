@@ -4,12 +4,6 @@
 //2017-10-16
 #include "linked.h"
 
-/*
-  I'm not sure if free_list should just return a null
-  It feels really weird to have to do that, but I'm not sure how to work around a pointer to freed heap memory
-  I have tried returning the node, but that just seems to break the list and loops forever through random values
-*/
-
 // go through each node and print out its value and terminates with a \n
 void print_list(struct node * node){
   // loop through the list
@@ -37,8 +31,6 @@ struct node * free_list(struct node * node){
   if(node){
     //recursive call to loop through list
     free_list(node -> next);
-    node -> next = 0;
-    node -> i = 0;
     free(node);
   }
   // returns a null pointer since the list is now free
